@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 interface Particle {
   id: number
@@ -26,24 +27,20 @@ export default function Home() {
   }, [])
 
   const handleStartChat = async () => {
-    // TODO: Re-enable Stripe checkout for production
-    // setIsLoading(true)
-    // try {
-    //   const response = await fetch('/api/create-checkout', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //   })
-    //   const data = await response.json()
-    //   if (data.url) {
-    //     window.location.href = data.url
-    //   }
-    // } catch (error) {
-    //   console.error('Error creating checkout:', error)
-    //   setIsLoading(false)
-    // }
-    
-    // For testing: go directly to chat
-    window.location.href = '/chat'
+    setIsLoading(true)
+    try {
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const data = await response.json()
+      if (data.url) {
+        window.location.href = data.url
+      }
+    } catch (error) {
+      console.error('Error creating checkout:', error)
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -70,18 +67,6 @@ export default function Home() {
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12">
-        {/* Logo/Brand */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-8"
-        >
-          <span className="text-white/60 font-body text-sm tracking-[0.3em] uppercase">
-            AI Influencer
-          </span>
-        </motion.div>
-
         {/* Profile Image */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -90,10 +75,12 @@ export default function Home() {
           className="relative mb-8"
         >
           <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden glow-pink">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-400 via-primary-600 to-primary-800 animate-gradient-xy" />
-            <div className="absolute inset-2 rounded-full bg-gradient-to-br from-primary-500/20 to-primary-900/40 backdrop-blur-sm flex items-center justify-center">
-              <span className="font-display text-6xl md:text-7xl text-white/90 font-light">A</span>
-            </div>
+            <Image
+              src="/chat-photo.png"
+              alt="Amanda Nyong"
+              fill
+              className="object-cover object-top"
+            />
             {/* Decorative ring */}
             <div className="absolute inset-0 rounded-full border-2 border-primary-400/30 animate-pulse-slow" />
           </div>
@@ -177,7 +164,7 @@ export default function Home() {
               ) : (
                 <>
                   <span>Chat with Me</span>
-                  <span className="gradient-text-gold font-semibold">$5</span>
+                  <span className="gradient-text-gold font-semibold">$7</span>
                   <svg
                     className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                     fill="none"

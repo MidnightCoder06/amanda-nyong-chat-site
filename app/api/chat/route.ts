@@ -40,11 +40,11 @@ Important boundaries:
 
 export async function POST(request: NextRequest) {
   try {
-    // TODO: Re-enable session verification for production
-    // const sessionToken = request.cookies.get('session_token')?.value
-    // if (!sessionToken) {
-    //   return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-    // }
+    // Verify session token from cookies
+    const sessionToken = request.cookies.get('session_token')?.value
+    if (!sessionToken) {
+      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+    }
 
     const body = await request.json()
     const { messages } = body
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     ]
 
     const completion = await grok.chat.completions.create({
-      model: 'grok-beta',
+      model: 'grok-3',
       messages: chatMessages,
       max_tokens: 500,
       temperature: 0.8,

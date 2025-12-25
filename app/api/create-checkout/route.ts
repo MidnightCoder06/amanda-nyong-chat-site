@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
               description: 'One private chat session with Amanda - your AI friend',
               images: [],
             },
-            unit_amount: 500, // $5.00 in cents
+            unit_amount: 700, // $7.00 in cents
           },
           quantity: 1,
         },

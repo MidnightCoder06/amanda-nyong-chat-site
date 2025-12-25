@@ -24,39 +24,27 @@ export default function ChatPage() {
   // Verify session on mount
   useEffect(() => {
     const verifySession = async () => {
-      // TODO: Re-enable session verification for production
-      // try {
-      //   const response = await fetch('/api/verify-session')
-      //   const data = await response.json()
-      //   if (data.valid) {
-      //     setIsVerified(true)
-      //     // Add welcome message
-      //     setMessages([
-      //       {
-      //         id: 'welcome',
-      //         role: 'assistant',
-      //         content: "Hey there! ✨ I'm Amanda. So glad you're here! What's on your mind today? I'm all ears and ready for whatever conversation you want to have.",
-      //       },
-      //     ])
-      //   } else {
-      //     router.push('/')
-      //   }
-      // } catch (error) {
-      //   router.push('/')
-      // } finally {
-      //   setIsVerifying(false)
-      // }
-
-      // For testing: skip verification
-      setIsVerified(true)
-      setIsVerifying(false)
-      setMessages([
-        {
-          id: 'welcome',
-          role: 'assistant',
-          content: "Hey there! ✨ I'm Amanda. So glad you're here! What's on your mind today? I'm all ears and ready for whatever conversation you want to have.",
-        },
-      ])
+      try {
+        const response = await fetch('/api/verify-session')
+        const data = await response.json()
+        if (data.valid) {
+          setIsVerified(true)
+          // Add welcome message
+          setMessages([
+            {
+              id: 'welcome',
+              role: 'assistant',
+              content: "Hey there! ✨ I'm Amanda. So glad you're here! What's on your mind today? I'm all ears and ready for whatever conversation you want to have.",
+            },
+          ])
+        } else {
+          router.push('/')
+        }
+      } catch (error) {
+        router.push('/')
+      } finally {
+        setIsVerifying(false)
+      }
     }
     verifySession()
   }, [router])
